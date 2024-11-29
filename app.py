@@ -15,7 +15,6 @@ import json
 
 # Access GCP credentials from secrets
 gcp_credentials = json.loads(st.secrets["GCP_CREDENTIALS"])
-st.write(gcp_credentials)
 
 
 # Authenticate and connect to Google Sheets using in-memory credentials
@@ -32,7 +31,7 @@ def connect_to_google_sheet(gcp_credentials, spreadsheet_name):
 spreadsheet_name = "Matchango Quiz Bank of Questions"
 try:
     sheet = connect_to_google_sheet(gcp_credentials, spreadsheet_name)
-    st.success("Successfully connected to Google Sheets!")
+    st.success("Successfully connected to Google Sheets")
 except Exception as e:
     st.error(f"Failed to connect to Google Sheets: {e}")
 
