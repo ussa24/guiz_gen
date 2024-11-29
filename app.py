@@ -13,28 +13,28 @@ import random
 
 import json
 
-
 # Access GCP credentials from secrets
 gcp_credentials = json.loads(st.secrets["GCP_CREDENTIALS"])
+st.write(gcp_credentials)
 
 
 # Authenticate and connect to Google Sheets using in-memory credentials
 def connect_to_google_sheet(gcp_credentials, spreadsheet_name):
-    # Define the required scope for Google Sheets and Drive
     scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
-
-    # Use in-memory credentials to authenticate
+    # Use in-memory credentials
     creds = ServiceAccountCredentials.from_json_keyfile_dict(gcp_credentials, scope)
     client = gspread.authorize(creds)
-
-    # Access the Google Sheet
     sheet = client.open(spreadsheet_name).sheet1
     return sheet
 
 
 # Example usage
 spreadsheet_name = "Matchango Quiz Bank of Questions"
-sheet = connect_to_google_sheet(gcp_credentials, spreadsheet_name)
+try:
+    sheet = connect_to_google_sheet(gcp_credentials, spreadsheet_name)
+    st.success("Successfully connected to Google Sheets!")
+except Exception as e:
+    st.error(f"Failed to connect to Google Sheets: {e}")
 
 
 # Function to add a new row to Google Sheets
@@ -151,11 +151,13 @@ class PlayerPositionPlotter:
         ball = Circle((position[0], position[1]), radius=1, color='white', zorder=4)
         ax.add_patch(ball)
 
+
 def flatten_positions(positions):
     """
     Converts player positions to a string representation suitable for Google Sheets.
     """
     return [json.dumps(player["position"]) for player in positions]
+
 
 def generate_text(prompt, model="gpt-4o"):
     openai.api_key = api_key
@@ -630,7 +632,6 @@ defensive_scenarios = {
     # Add more defensive scenarios as needed
 }
 
-
 # Other scenarios
 other_scenarios = []
 
@@ -659,8 +660,6 @@ if "generated_positions" not in st.session_state:
 
 if "generated_questions_history" not in st.session_state:
     st.session_state["generated_questions_history"] = []
-
-
 
 positions_data = {
     "coordinates": {
@@ -732,8 +731,6 @@ if st.sidebar.button("Generate"):
                     buf = BytesIO()
                     fig.savefig(buf, format="png")
                     st.image(buf)
-
-
 
 # Display the generated question and answers if available
 if st.session_state.generated_output:
