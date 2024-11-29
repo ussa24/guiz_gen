@@ -761,9 +761,6 @@ if st.session_state.generated_output:
                     st.error("Generated positions are missing coordinates.")
                     st.stop()
 
-                # Connect to Google Sheets using the service account
-                sheet = connect_to_google_sheet(SERVICE_ACCOUNT_FILE, SPREADSHEET_NAME)
-
                 # Prepare data to insert into Google Sheet
                 row_data = [
                     situation,  # Selected situation
