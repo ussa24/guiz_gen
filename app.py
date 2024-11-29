@@ -17,19 +17,24 @@ import json
 # Access GCP credentials from secrets
 gcp_credentials = json.loads(st.secrets["GCP_CREDENTIALS"])
 
-# Save to a file if required by your library
-with open("gcp_temp.json", "w") as f:
-    f.write(json.dumps(gcp_credentials))
 
-SERVICE_ACCOUNT_FILE = "gcp_temp.json"
-
-# Authenticate and connect to Google Sheets
-def connect_to_google_sheet(service_account_file, spreadsheet_name):
+# Authenticate and connect to Google Sheets using in-memory credentials
+def connect_to_google_sheet(gcp_credentials, spreadsheet_name):
+    # Define the required scope for Google Sheets and Drive
     scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
-    creds = ServiceAccountCredentials.from_json_keyfile_name(service_account_file, scope)
+
+    # Use in-memory credentials to authenticate
+    creds = ServiceAccountCredentials.from_json_keyfile_dict(gcp_credentials, scope)
     client = gspread.authorize(creds)
+
+    # Access the Google Sheet
     sheet = client.open(spreadsheet_name).sheet1
     return sheet
+
+
+# Example usage
+spreadsheet_name = "Matchango Quiz Bank of Questions"
+sheet = connect_to_google_sheet(gcp_credentials, spreadsheet_name)
 
 
 # Function to add a new row to Google Sheets
