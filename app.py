@@ -11,23 +11,18 @@ import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 import random
 
-import base64
 import json
 
-# Access secrets
-openai_api_key = st.secrets["OPENAI_API_KEY"]
-gcp_base64 = st.secrets["GCP_SERVICE_ACCOUNT"]
 
-# Decode the GCP service account JSON
-gcp_json_str = base64.b64decode(gcp_base64).decode("utf-8")
-gcp_credentials = json.loads(gcp_json_str)
+# Access GCP credentials from secrets
+gcp_credentials = json.loads(st.secrets["GCP_CREDENTIALS"])
 
-# Save the credentials to a temporary file (if required by gspread)
+# Save to a file if required by your library
 with open("gcp_temp.json", "w") as f:
     f.write(json.dumps(gcp_credentials))
 
-# Use the temporary file path
 SERVICE_ACCOUNT_FILE = "gcp_temp.json"
+
 # Authenticate and connect to Google Sheets
 def connect_to_google_sheet(service_account_file, spreadsheet_name):
     scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
