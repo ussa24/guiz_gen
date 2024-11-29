@@ -771,7 +771,8 @@ if st.session_state.generated_output:
                     *[answer["text"] for answer in st.session_state["generated_output"]["answers"]],  # Answers
                     "; ".join(flatten_positions(positions.get("team_players", []))),  # Flattened team positions
                     "; ".join(flatten_positions(positions.get("opponent_players", []))),  # Flattened opponent positions
-                    json.dumps(positions.get("ball", {}))  # Serialize ball position
+                    json.dumps(positions.get("ball", {})),  # Serialize ball position
+                    positions.get("main_player", "N/A")  # Add the main player field, defaulting to "N/A" if not present
                 ]
 
                 # Add the data to Google Sheets
