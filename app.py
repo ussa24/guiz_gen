@@ -62,7 +62,7 @@ client = openai.OpenAI(
 
 # Title
 st.title("Matchango Questions Generator")
-st.logo("logo matchango.png", size="large", link=None, icon_image=None)
+st.logo("logo_matchango.png", size="large", link=None, icon_image=None)
 # Sidebar with dropdown options
 st.sidebar.header("Options")
 
