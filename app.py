@@ -31,7 +31,6 @@ def connect_to_google_sheet(gcp_credentials, spreadsheet_name):
 spreadsheet_name = "Matchango Quiz Bank of Questions"
 try:
     sheet = connect_to_google_sheet(gcp_credentials, spreadsheet_name)
-    st.success("Successfully connected to Google Sheets")
 except Exception as e:
     st.error(f"Failed to connect to Google Sheets: {e}")
 
@@ -63,7 +62,7 @@ client = openai.OpenAI(
 
 # Title
 st.title("Matchango Questions Generator")
-
+st.logo("logo matchango.png")
 # Sidebar with dropdown options
 st.sidebar.header("Options")
 
@@ -744,7 +743,7 @@ if st.session_state.generated_output:
     col1, col2 = st.columns(2)
 
     with col1:
-        if st.button("Validate and Share"):
+        if st.button("Validate"):
             try:
                 # Ensure generated_positions exists and has valid data
                 if not st.session_state["generated_positions"]:
