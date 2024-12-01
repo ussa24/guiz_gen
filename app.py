@@ -792,3 +792,28 @@ if st.session_state.generated_output:
             st.warning("Question rejected.")
             # Clear session state when rejected
             st.session_state.generated_output = None
+# Prepare data for download
+if st.session_state.get("generated_output") or st.session_state.get("generated_positions"):
+    download_data = {
+        "situation": situation,
+        "scenario": scenario,
+        "axe": axe,
+        "use_ai_positions": use_ai_positions,
+        "difficulty": difficulty,
+        "generated_output": st.session_state.get("generated_output", {}),
+        "generated_positions": st.session_state.get("generated_positions", {}),
+    }
+
+    # Convert the data to a JSON string
+    json_data = json.dumps(download_data, indent=4)
+
+    # Create a BytesIO object
+    json_bytes = BytesIO(json_data.encode("utf-8"))
+
+    # Add a download button
+    st.download_button(
+        label="Download Data as JSON",
+        data=json_bytes,
+        file_name="generated_data.json",
+        mime="application/json",
+    )
