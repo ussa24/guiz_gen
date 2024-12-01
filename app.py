@@ -802,7 +802,7 @@ if st.session_state.generated_output:
     json_data = json.dumps(download_data, indent=4)
 
     # Create a BytesIO object
-    json_bytes = BytesIO(json_data.encode("utf-8"))
+    json_bytes = BytesIO(json_data.encode("Latin-1"))
 
     # Add a download button
     st.download_button(
