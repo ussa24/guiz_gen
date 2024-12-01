@@ -787,13 +787,7 @@ if st.session_state.generated_output:
             except Exception as e:
                 st.error(f"An unexpected error occurred: {e}")
 
-    with col2:
-        if st.button("Reject"):
-            st.warning("Question rejected.")
-            # Clear session state when rejected
-            st.session_state.generated_output = None
-# Prepare data for download
-if st.session_state.get("generated_output") or st.session_state.get("generated_positions"):
+
     download_data = {
         "situation": situation,
         "scenario": scenario,
@@ -817,3 +811,10 @@ if st.session_state.get("generated_output") or st.session_state.get("generated_p
         file_name="generated_data.json",
         mime="application/json",
     )
+
+
+    with col2:
+        if st.button("Reject"):
+            st.warning("Question rejected.")
+            # Clear session state when rejected
+            st.session_state.generated_output = None
